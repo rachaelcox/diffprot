@@ -14,5 +14,5 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
-        tidyverse
-        janitor
+        tidyverse >= (1.3.0)
+        janitor >= (2.0.1)
