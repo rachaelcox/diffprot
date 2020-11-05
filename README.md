@@ -1,5 +1,5 @@
 # enrichr
-Annotate and compute fold-changes and Z-scores for differential proteomics results.
+Annotate, compute, and visualize fold-changes and Z-scores for differential proteomics results.
 
 ### Functions
 `enrich()`
