@@ -68,7 +68,7 @@ compute_fxn <- function(pd_impute_df){
 #' @param pd_file Proteins.txt tab-separated file output by Proteome Discoverer 2.3
 #' @param annot_file Optional tab-separated file containing a table with annotations for the queried proteome; must match accession format in FASTA given to Proteome Discoverer as a look up database
 #' @param outfile_name File name for output .csv; default = "output.csv"
-#' @return A .csv with all computed information combined into one table.
+#' @return A `.csv` with all computed information combined into one table.
 #' @export
 enrich_fxn <- function(exp_id, meta_file, psm_file, pd_file, annot_file, outfile_name = "output.csv"){
 

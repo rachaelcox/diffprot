@@ -27,7 +27,7 @@ enrich_fxn(
 \item{outfile_name}{File name for output .csv; default = "output.csv"}
 }
 \value{
-A .csv with all computed information combined into one table.
+A \code{.csv} with all computed information combined into one table.
 }
 \description{
 Format PSM.txt and Proteins.txt files output by Proteome Discoverer 2.3, formatting PSM counts and AUC XIC values into one table, summing technical replicates, and computing fold-change and Z-scores for each detected protein in test and control runs. Optionally annotates results given a tab-separated annotation file. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
