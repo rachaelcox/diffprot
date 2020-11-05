@@ -70,7 +70,7 @@ compute_fxn <- function(pd_impute_df){
 #' @param outfile_name File name for output .csv; default = "output.csv"
 #' @return A `.csv` with all computed information combined into one table.
 #' @export
-enrich_fxn <- function(exp_id, meta_file, psm_file, pd_file, annot_file, outfile_name = "output.csv"){
+enrich <- function(exp_id, meta_file, psm_file, pd_file, annot_file, outfile_name = "output.csv"){
 
   if(str_sub(outfile_name, -3, -1) != "csv"){
     outfile_name = paste0(outfile_name, ".csv")
