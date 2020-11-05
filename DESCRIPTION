@@ -8,11 +8,11 @@ Authors@R:
            email = "rachaelcox@utexas.edu",
            comment = c(ORCID = "0000-0001-5407-1101"))
 Description: Tools for processing mass spectrometry data pre-processed by Proteome Discoverer. Calculates differential enrichment of both peptide-spectrum matches (PSMs) and the AUC of extracted ion chromatograms (XICs).
-License: `use_gpl3_license()`
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
-        tidyverse >= (1.3.0)
-        janitor >= (2.0.1)
+        tidyverse (>= 1.3.0),
+        janitor (>= 2.0.1)
