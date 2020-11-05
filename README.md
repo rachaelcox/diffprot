@@ -7,4 +7,10 @@ Annotate, compute, and visualize fold-changes and Z-scores for differential prot
 `combine_reps()`
 `zplot()`
 
+### Installation
+Run the following code:
+``` r
+devtools::install_github("rachaelcox/enrichr")
+library(enrichr)
+```
 ### Example workflow
