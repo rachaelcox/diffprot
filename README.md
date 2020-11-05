@@ -1,2 +1,2 @@
 # enrichr
-R package for computing differential abundance of mass spectrometry protein observations
+Annotate and compute fold-changes and Z-scores for differential proteomics results.
