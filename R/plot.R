@@ -13,7 +13,7 @@
 #' @export
 psmplot <- function(data, outfile_prefix, threshold, num_labs, label_file, ylab, xlab, point_color){
 
-  theme_set(theme_cowplot())
+  theme_set(cowplot::theme_cowplot())
   palette_pretty <- c("#0072B2","#E69F00","#009E24",
                       "#FF0000", "#979797","#5530AA", "#1E1E1E")
 
@@ -49,7 +49,7 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs, label_file, ylab,
 
   # calculate thresholds
   data_conf <- data %>%
-    mutate(conf_90 = case_when(get(zcol) >= 1.282 ~ TRUE,
+    dplyr::mutate(conf_90 = case_when(get(zcol) >= 1.282 ~ TRUE,
                                TRUE ~ FALSE),
            conf_95 = case_when(get(zcol) >= 1.645 ~ TRUE,
                                TRUE ~ FALSE),
@@ -63,23 +63,23 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs, label_file, ylab,
   data_conf[xcol] <- data_conf[xcol]+1
 
   data_conf %>%
-    select(accession, xcol, ycol) %>%
+    dplyr::select(accession, xcol, ycol) %>%
     print()
 
   if(missing(label_file)){
     label_subset <- data_conf %>%
-      arrange(desc(zcol)) %>%
-      slice_head(n = num_labs)
+      dplyr::arrange(desc(zcol)) %>%
+      dplyr::slice_head(n = num_labs)
   } else {
-    labels <- read_csv(label_file, col_names = FALSE)
+    labels <- readr::read_csv(label_file, col_names = FALSE)
     label_subset <- data_conf %>%
-      filter(grepl(paste(labels$X1, collapse = "|"), get(acol),
+      dplyr::filter(grepl(paste(labels$X1, collapse = "|"), get(acol),
                    ignore.case = TRUE))
   }
 
   print(sprintf('Labeled plot points for "%s_PSMloglog.png"', outfile_prefix))
   label_subset %>%
-    select(accession, zcol, acol) %>%
+    dplyr::select(accession, zcol, acol) %>%
     print()
 
   if(threshold == 90){
@@ -155,7 +155,7 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs, label_file, ylab,
 zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
                       threshold, label_file, num_labels){
 
-  theme_set(theme_cowplot())
+  theme_set(cowplot::theme_cowplot())
   palette_pretty <- c("#1E1E1E", "#FF0000", "#0072B2",
                       "#E69F00", "#009E24", "#979797","#5530AA", "#1E1E1E")
 
@@ -180,18 +180,18 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
 
   if(missing(label_file)){   # take top n labels if no label file
     label_subset <- data %>%
-      arrange(desc(zcol)) %>%
-      slice_head(n = num_labels)
+      dplyr::arrange(desc(zcol)) %>%
+      dplyr::slice_head(n = num_labels)
 
   } else {
-    labels <- read_csv(label_file, col_names = FALSE)
+    labels <- readr::read_csv(label_file, col_names = FALSE)
     label_subset <- data %>%
-      filter(grepl(paste(labels$X1, collapse = "|"), get(acol), ignore.case = TRUE))
+      dplyr::filter(grepl(paste(labels$X1, collapse = "|"), get(acol), ignore.case = TRUE))
   }
 
   print(sprintf('Labeled plot points for "%s_zscore_comparison.png & %s_zscore_comparison.pdf:"', outfile_prefix, outfile_prefix))
   label_subset %>%
-    select(accession, matches("zscore"), matches("gene_names_primary")) %>%
+    dplyr::select(accession, matches("zscore"), matches("gene_names_primary")) %>%
     print()
 
   # z-scores vs z-scores plot
