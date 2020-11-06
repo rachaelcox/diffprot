@@ -2,7 +2,7 @@
 % Please edit documentation in R/combine.R
 \name{combine_reps}
 \alias{combine_reps}
-\title{Combine replicate differential proteomics experiments.}
+\title{Combine replicates for a proteomics experiment.}
 \usage{
 combine_reps(rep1, rep2, rep3, outfile_prefix)
 }
@@ -13,11 +13,11 @@ combine_reps(rep1, rep2, rep3, outfile_prefix)
 
 \item{rep3}{Optional. A data frame produced by \code{enrich_fxn()} corresponding to replicate 3.}
 
-\item{outfile_prefix}{Optional. File prefix for output \code{.csv} files. Default = "output_combined."}
+\item{outfile_prefix}{Optional. File prefix for output \code{.csv} files. Default = "reps_combined".}
 }
 \value{
-A \code{.csv} with PSM information across biological replicates combined into one table.
+A data frame and \code{.csv} with PSM information across biological replicates combined into one table.
 }
 \description{
-Combine replicate proteomics experiments. Calculates mean PSMs across test and control runs. Calculates weighted z-scores using Stouffer's Z-score method. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
+Combine replicate proteomics experiments. Calculates mean PSMs across test and control runs. Calculates weighted z-scores using Stouffer's Z-score method. Calculates p-values and FDR on the weighted Z-score using the Benjamini-Hochberg procedure. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
 }
