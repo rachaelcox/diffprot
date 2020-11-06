@@ -90,7 +90,7 @@ combine_reps <- function(rep1, rep2, rep3, outfile_prefix){
 #' @param outfile_prefix Optional. File prefix for output `.csv` files. Default = "exps_combined".
 #' @return A data frame and `.csv` with PSM information across biological replicates combined into one table.
 #' @export
-combine_exps <- function(exp1, exp2, exp1_id, exp2_id){
+combine_exps <- function(exp1, exp2, exp1_id, exp2_id, outfile_prefix){
 
   cols <- grep('joint_zscore|fdr_bh', names(exp1), value = TRUE)
 
