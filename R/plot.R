@@ -106,7 +106,7 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs, label_file, ylab,
   }
 
   p1
-  p2 <- p1 + geom_text_repel(data = label_subset,
+  p2 <- p1 + ggrepel::geom_text_repel(data = label_subset,
                              size = 6.5/.pt, # font size
                              fontface = "bold",
                              alpha = 1.0,
@@ -252,7 +252,7 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
 
   pz <- p_base +
     geom_point(alpha = 0.5, size = 1.5) +
-    geom_text_repel(data = label_subset,
+    ggrepel::geom_text_repel(data = label_subset,
                     size = 6.5/.pt, # font size
                     fontface = "bold",
                     alpha = 1.0,
