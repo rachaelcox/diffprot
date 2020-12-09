@@ -63,9 +63,11 @@ compute_fxn <- function(pd_impute_df, one_sided = FALSE){
     dplyr::arrange(desc(PSM_zscore)) %>%
     dplyr::rename(total_PSMs = number_PSMs, ctrl_abundance = comb_ctrl,
            exp_abundance = comb_exp) %>%
-    dplyr::select(accession, description, number_of_unique_peptides, number_of_peptides,
-           total_PSMs, ctrl_abundance, exp_abundance, mean_abundance, abundance_fc,
-           abundance_log2fc, ctrl_PSMs, exp_PSMs, PSM_fc, PSM_log2fc, PSM_zscore)
+    dplyr::select(accession, description, number_of_unique_peptides,
+                  number_of_peptides, total_PSMs, ctrl_abundance,
+                  exp_abundance, mean_abundance, abundance_fc,
+                  abundance_log2fc, ctrl_PSMs, exp_PSMs,
+                  PSM_fc, PSM_log2fc, PSM_zscore, pval, fdr_bh)
 
   print(pd_enriched)
 
