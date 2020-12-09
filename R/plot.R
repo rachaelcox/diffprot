@@ -2,16 +2,17 @@
 #'
 #' Graphs control PSMs versus test PSMs on a log-log plot. A pseudocount of 1 is adding to all PSMs for log-log visualization. Colored by Z-test threshold. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
 #'
-#' @param data A data frame produced by `enrich_fxn()`.
+#' @param data A data frame produced by `enrich()`.
 #' @param ylab Text for y-axis label; will correspond to test PSMs.
 #' @param xlab Text for x-axis label; will correspond to control PSMs.
-#' @param threshold Optional. Confidence Z-test threshold to color points by. One of c(90, 95, 99). Default = 99% (Z = 2.33, one-sided test).
+#' @param threshold Optional. FDR threshold to color points by. One of c(90, 95, 99). Default = 5% FDR (fdr_bh <= 0.05).
 #' @param num_labs Optional. Number of annotation labels to display. Requires input to have an annotation column named `gene_names_primary`. Default = 0.
 #' @param  label_file Optional. Comma-separated file containing names of genes to be labeled on the plot; requires input to have an annotation column named `gene_names_primary` and labels must match format in the column.
 #' @param outfile_prefix Optional. File prefix for output `.png` and `.pdf` files. Default = "output."
 #' @return PSM log-log plots in `.png` and `.pdf` format.
 #' @export
-psmplot <- function(data, outfile_prefix, threshold, num_labs, label_file, ylab, xlab, point_color){
+psmplot <- function(data, outfile_prefix, threshold, num_labs,
+                    label_file, ylab, xlab, point_color){
 
   theme_set(cowplot::theme_cowplot())
   palette_pretty <- c("#0072B2","#E69F00","#009E24",
@@ -49,12 +50,12 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs, label_file, ylab,
 
   # calculate thresholds
   data_conf <- data %>%
-    dplyr::mutate(conf_90 = case_when(get(zcol) >= 1.282 ~ TRUE,
-                               TRUE ~ FALSE),
-           conf_95 = case_when(get(zcol) >= 1.645 ~ TRUE,
-                               TRUE ~ FALSE),
-           conf_99 = case_when(get(zcol) >= 2.33 ~ TRUE,
-                               TRUE ~ FALSE))
+    dplyr::mutate(conf_90 = dplyr::case_when(fdr_bh <= 0.10 ~ TRUE,
+                                      TRUE ~ FALSE),
+                  conf_95 = dplyr::case_when(fdr_bh <= 0.05 ~ TRUE,
+                                      TRUE ~ FALSE),
+                  conf_99 = dplyr::case_when(fdr_bh <= 0.01 ~ TRUE,
+                                      TRUE ~ FALSE))
 
   # add 1 to all PSMs for log-log visualization
   print('Adding pseudocounts to PSMs...')
@@ -87,21 +88,21 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs, label_file, ylab,
                                 color = conf_90,  label = get(acol))) +
       geom_point(size = 1.5) +
       annotate(geom = "text", x = 0.4*max(data_conf[xcol]), y = 1.3,
-               label = "90% confidence\n(One-sided Z-test > 1.28)", color = point_color, size = 2.8)
+               label = "10% FDR", color = point_color, size = 2.8)
 
   } else if(threshold == 95) {
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_95, label = get(acol))) +
       geom_point(size = 1.5) +
       annotate(geom = "text", x = 0.4*max(data_conf[xcol]), y = 1.3,
-               label = "95% confidence\n(One-sided Z-test > 1.65)", color = point_color, size = 2.8)
+               label = "5% FDR", color = point_color, size = 2.8)
 
   } else {
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_99, label = get(acol))) +
       geom_point(size = 1.5) +
       annotate(geom = "text", x = 0.4*max(data_conf[xcol]), y = 1.3,
-               label = "99% confidence\n(One-sided Z-test > 2.33)", color = point_color, size = 2.8)
+               label = "1% FDR", color = point_color, size = 2.8)
 
   }
 
@@ -146,7 +147,7 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs, label_file, ylab,
 #' @param xcol Name of column containing x-axis data; should correspond to replicate #1 Z-scores.
 #' @param ylab Text for y-axis label; should correspond to replicate #1 Z-scores.
 #' @param xlab Text for x-axis label; should correspond to replicate #2 Z-scores.
-#' @param threshold Optional. FDR threshold to color points by. One of c(0.01, 0.05, 0.10). Default = 5% (qval <= 0.05).
+#' @param threshold Optional. FDR threshold to color points by. One of c(90, 95, 99). Default = 5% FDR (fdr_bh <= 0.05).
 #' @param num_labs Optional. Number of annotation labels to display. Requires input to have an annotation column named `gene_names_primary`. Default = 0.
 #' @param  label_file Optional. Comma-separated file containing names of genes to be labeled on the plot; requires input to have an annotation column named `gene_names_primary` and labels must match format in the column.
 #' @param outfile_prefix Optional. File prefix for output `.png` and `.pdf` files. Default = "output."
@@ -168,7 +169,7 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
   }
 
   if(missing(threshold)){
-    threshold = 99
+    threshold = 95
   }
 
   acol <- grep('gene_names_primary$', names(data), value = TRUE)

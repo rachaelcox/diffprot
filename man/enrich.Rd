@@ -9,22 +9,25 @@ enrich(
   meta_file,
   psm_file,
   pd_file,
+  one_sided = FALSE,
   annot_file,
   outfile_name = "output.csv"
 )
 }
 \arguments{
-\item{exp_id}{An identifier for a given experiment that matches test and control files together (see meta file)}
+\item{exp_id}{An identifier for a given experiment that matches test and control files together (see meta file).}
 
-\item{meta_file}{A tab-separate file with column headers \code{exp_name} (populated with values that correspond to exp_id variable), \code{type} (exp or ctrl), and \code{file_id} (determined by Proteome Discoverer, see README on Github)}
+\item{meta_file}{A tab-separate file with column headers \code{exp_name} (populated with values that correspond to exp_id variable), \code{type} (exp or ctrl), and \code{file_id} (determined by Proteome Discoverer, see README on Github).}
 
-\item{psm_file}{PSM.txt tab-separated file output by Proteome Discoverer 2.3}
+\item{psm_file}{PSM.txt tab-separated file output by Proteome Discoverer 2.3.}
 
-\item{pd_file}{Proteins.txt tab-separated file output by Proteome Discoverer 2.3}
+\item{pd_file}{Proteins.txt tab-separated file output by Proteome Discoverer 2.3.}
 
-\item{annot_file}{Optional tab-separated file containing a table with annotations for the queried proteome; must match accession format in FASTA given to Proteome Discoverer as a look up database}
+\item{one_sided}{Specify one-sided or two-sided statistical test; default = \code{FALSE} (two-sided).}
 
-\item{outfile_name}{File name for output .csv; default = "output.csv"}
+\item{annot_file}{Optional tab-separated file containing a table with annotations for the queried proteome; must match accession format in FASTA given to Proteome Discoverer as a look up database.}
+
+\item{outfile_name}{File name for output .csv; default = "output.csv".}
 }
 \value{
 A \code{.csv} with all computed information combined into one table.

@@ -5,11 +5,13 @@
 #' @param rep1 A data frame produced by `enrich_fxn()` corresponding to replicate 1.
 #' @param rep2 A data frame produced by `enrich_fxn()` corresponding to replicate 2.
 #' @param rep3 Optional. A data frame produced by `enrich_fxn()` corresponding to replicate 3.
+#' @param one_sided Specify one-sided or two-sided statistical test; default = `FALSE` (two-sided).
 #' @param outfile_prefix Optional. File prefix for output `.csv` files. Default = "reps_combined".
 #' @return A data frame and `.csv` with PSM information across biological replicates combined into one table.
 #' @export
-combine_reps <- function(rep1, rep2, rep3, outfile_prefix){
+combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
 
+  # combine replicates into one dataframe
   rep1 <- rep1 %>%
     mutate(rep = "b1") %>%
     select(-matches("abundance.*"), -matches("number_of.*"),
@@ -47,6 +49,7 @@ combine_reps <- function(rep1, rep2, rep3, outfile_prefix){
 
   }
 
+  # define experiment, control, and zscore columns for each rep
   ecols <- grep('^exp_PSMs', names(combined_df), value = TRUE)
   ccols <- grep('^ctrl_PSMs', names(combined_df), value = TRUE)
   zcols <- grep('^PSM_zscore', names(combined_df), value = TRUE)
@@ -54,7 +57,7 @@ combine_reps <- function(rep1, rep2, rep3, outfile_prefix){
   print("Joining data frames...")
   print(glimpse(combined_df))
 
-
+  # compute cross-replicate statistics
   print("Performing cross-replicate calculations...")
   combined_df <- combined_df %>%
     mutate_if(is.numeric, replace_na, replace = 0) %>%
@@ -63,18 +66,29 @@ combine_reps <- function(rep1, rep2, rep3, outfile_prefix){
     mutate(mean_exp_PSMs = rowMeans(select(., ecols))) %>%
     select(accession, matches("_b\\d"), matches("mean_"),
            joint_zscore, everything()) %>%
-    #mutate_if(is.numeric, replace_na, replace = 0) %>%
-    arrange(desc(joint_zscore)) %>%
-    mutate(pval = pnorm(joint_zscore, lower.tail = FALSE)) %>%
-    mutate(fdr_bh = p.adjust(pval, method = "BH", n = length(pval))) %>%
-    mutate(conf_90 = case_when(fdr_bh <= 0.10 ~ TRUE,
-                               TRUE ~ FALSE),
-           conf_95 = case_when(fdr_bh <= 0.05 ~ TRUE,
-                               TRUE ~ FALSE),
-           conf_99 = case_when(fdr_bh <= 0.01 ~ TRUE,
-                               TRUE ~ FALSE))
+    arrange(desc(joint_zscore))
 
-  write_csv(combined_df, sprintf("%s_combined.csv", outfile_prefix))
+  # calculate probabilities
+  if(!one_sided){
+    combined_df <- combined_df %>%
+      dplyr::mutate(pval = pnorm(joint_zscore)) %>%
+      dplyr::mutate(fdr_bh = p.adjust(pval, method = "BH", n = length(pval)))
+  } else {
+    combined_df <- combined_df %>%
+      dplyr::mutate(pval = pnorm(joint_zscoree, lower.tail = FALSE)) %>%
+      dplyr::mutate(fdr_bh = p.adjust(pval, method = "BH", n = length(pval)))
+  }
+
+  # label cutoffs
+  combined_df <- combined_df %>%
+    dplyr::mutate(conf_90 = dplyr::case_when(fdr_bh <= 0.10 ~ TRUE,
+                                             TRUE ~ FALSE),
+                  conf_95 = dplyr::case_when(fdr_bh <= 0.05 ~ TRUE,
+                                             TRUE ~ FALSE),
+                  conf_99 = dplyr::case_when(fdr_bh <= 0.01 ~ TRUE,
+                                             TRUE ~ FALSE))
+
+  readr::write_csv(combined_df, sprintf("%s_combined.csv", outfile_prefix))
   print(combined_df)
   return(combined_df)
 }
@@ -96,7 +110,7 @@ combine_exps <- function(exp1, exp2, exp1_id, exp2_id, outfile_prefix){
 
   if(length(cols) == 0){
     stop("It doesn't look like you're using the correct dataframes as input. \\
-         Are you looking for `combine_reps()`? This function uses dataframes output by `combine_reps()`. \\
+         Are you looking for `combine_reps()`? This function uses data frames output by `combine_reps()`. \\
          See `?combine_exps` and `?combine_reps` for more details.")
   }
 
@@ -126,15 +140,15 @@ combine_exps <- function(exp1, exp2, exp1_id, exp2_id, outfile_prefix){
   df2_z <- colnames(df2)[2]
 
   combined_df <- full_join(df1, df2, by = c("accession", "gene_names_primary")) %>%
-    mutate(conf_90 = case_when(get(df1_fdr) <= 0.10 & get(df2_fdr) <= 0.10 ~ both_sig,
+    mutate(conf_90 = dplyr::case_when(get(df1_fdr) <= 0.10 & get(df2_fdr) <= 0.10 ~ both_sig,
                                get(df1_fdr) <= 0.10 & get(df2_fdr) > 0.10 ~ exp1_sig,
                                get(df1_fdr) > 0.10 & get(df2_fdr) <= 0.10 ~ exp2_sig,
                                get(df1_fdr) > 0.10 & get(df2_fdr) > 0.10 ~ no_sig),
-           conf_95 = case_when(get(df1_fdr) <= 0.05 & get(df2_fdr) <= 0.05 ~ both_sig,
+           conf_95 = dplyr::case_when(get(df1_fdr) <= 0.05 & get(df2_fdr) <= 0.05 ~ both_sig,
                                get(df1_fdr) <= 0.05 & get(df2_fdr) > 0.05 ~ exp1_sig,
                                get(df1_fdr) > 0.05 & get(df2_fdr) <= 0.05 ~ exp2_sig,
                                get(df1_fdr) > 0.05 & get(df2_fdr) > 0.05 ~ no_sig),
-           conf_99 = case_when(get(df1_fdr) <= 0.01 & get(df2_fdr) <= 0.01 ~ both_sig,
+           conf_99 = dplyr::case_when(get(df1_fdr) <= 0.01 & get(df2_fdr) <= 0.01 ~ both_sig,
                                get(df1_fdr) <= 0.01 & get(df2_fdr) > 0.01 ~ exp1_sig,
                                get(df1_fdr) > 0.01 & get(df2_fdr) <= 0.01 ~ exp2_sig,
                                get(df1_fdr) > 0.01 & get(df2_fdr) > 0.01 ~ no_sig)) %>%

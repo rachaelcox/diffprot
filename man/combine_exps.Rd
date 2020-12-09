@@ -4,7 +4,7 @@
 \alias{combine_exps}
 \title{Combine and compare proteomics experiments.}
 \usage{
-combine_exps(exp1, exp2, exp1_id, exp2_id)
+combine_exps(exp1, exp2, exp1_id, exp2_id, outfile_prefix)
 }
 \arguments{
 \item{exp1}{A data frame produced by \code{combine_reps()} corresponding to experiment 1.}

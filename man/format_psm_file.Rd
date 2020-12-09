@@ -2,20 +2,20 @@
 % Please edit documentation in R/format.R
 \name{format_psm_file}
 \alias{format_psm_file}
-\title{Format a PSM.txt file output by Proteome Discoverer 2.3, summing technical replicates and demarcating test and control PSMs}
+\title{Format a PSM.txt file output by Proteome Discoverer 2.3, summing technical replicates and demarcating test and control PSMs.}
 \usage{
 format_psm_file(exp_id, meta_file, psm_file)
 }
 \arguments{
-\item{exp_id}{An identifier for a given experiment that matches both test and control files}
+\item{exp_id}{An identifier for a given experiment that matches both test and control files.}
 
-\item{meta_file}{A tab-separate file with column headers \code{exp_name} (populated with values that correspond to exp_id variable), \code{type} (exp or ctrl), and \code{file_id} (determined by Proteome Discoverer, see README)}
+\item{meta_file}{A tab-separate file with column headers \code{exp_name} (populated with values that correspond to exp_id variable), \code{type} (exp or ctrl), and \code{file_id} (determined by Proteome Discoverer, see README).}
 
-\item{psm_file}{PSM.txt tab-separated file output by Proteome Discoverer 2.3}
+\item{psm_file}{PSM.txt tab-separated file output by Proteome Discoverer 2.3.}
 }
 \value{
-A dataframe with PSMs summarized for each accession in test and control cases
+A dataframe with PSMs summarized for each accession in test and control cases.
 }
 \description{
-Format a PSM.txt file output by Proteome Discoverer 2.3, summing technical replicates and demarcating test and control PSMs
+Format a PSM.txt file output by Proteome Discoverer 2.3, summing technical replicates and demarcating test and control PSMs.
 }

@@ -29,7 +29,7 @@ zplot(
 
 \item{xcol}{Name of column containing x-axis data; should correspond to replicate #1 Z-scores.}
 
-\item{threshold}{Optional. FDR threshold to color points by. One of c(0.01, 0.05, 0.10). Default = 5\% (qval <= 0.05).}
+\item{threshold}{Optional. FDR threshold to color points by. One of c(90, 95, 99). Default = 5\% FDR (fdr_bh <= 0.05).}
 
 \item{label_file}{Optional. Comma-separated file containing names of genes to be labeled on the plot; requires input to have an annotation column named \code{gene_names_primary} and labels must match format in the column.}
 

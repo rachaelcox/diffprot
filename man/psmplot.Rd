@@ -16,11 +16,11 @@ psmplot(
 )
 }
 \arguments{
-\item{data}{A data frame produced by \code{enrich_fxn()}.}
+\item{data}{A data frame produced by \code{enrich()}.}
 
 \item{outfile_prefix}{Optional. File prefix for output \code{.png} and \code{.pdf} files. Default = "output."}
 
-\item{threshold}{Optional. Confidence Z-test threshold to color points by. One of c(90, 95, 99). Default = 99\% (Z = 2.33, one-sided test).}
+\item{threshold}{Optional. FDR threshold to color points by. One of c(90, 95, 99). Default = 5\% FDR (fdr_bh <= 0.05).}
 
 \item{num_labs}{Optional. Number of annotation labels to display. Requires input to have an annotation column named \code{gene_names_primary}. Default = 0.}
 

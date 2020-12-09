@@ -1,9 +1,9 @@
-#' Format a PSM.txt file output by Proteome Discoverer 2.3, summing technical replicates and demarcating test and control PSMs
+#' Format a PSM.txt file output by Proteome Discoverer 2.3, summing technical replicates and demarcating test and control PSMs.
 #'
-#' @param exp_id An identifier for a given experiment that matches both test and control files
-#' @param meta_file A tab-separate file with column headers `exp_name` (populated with values that correspond to exp_id variable), `type` (exp or ctrl), and `file_id` (determined by Proteome Discoverer, see README)
-#' @param psm_file PSM.txt tab-separated file output by Proteome Discoverer 2.3
-#' @return A dataframe with PSMs summarized for each accession in test and control cases
+#' @param exp_id An identifier for a given experiment that matches both test and control files.
+#' @param meta_file A tab-separate file with column headers `exp_name` (populated with values that correspond to exp_id variable), `type` (exp or ctrl), and `file_id` (determined by Proteome Discoverer, see README).
+#' @param psm_file PSM.txt tab-separated file output by Proteome Discoverer 2.3.
+#' @return A dataframe with PSMs summarized for each accession in test and control cases.
 format_psm_file <- function(exp_id, meta_file, psm_file){
 
   meta <- readr::read_tsv(meta_file) %>%
@@ -35,13 +35,13 @@ format_psm_file <- function(exp_id, meta_file, psm_file){
 
 }
 
-#' Format a Proteins.txt file output by Proteome Discoverer 2.3, summing technical replicates and demarcating test and control PSMs
+#' Format a Proteins.txt file output by Proteome Discoverer 2.3, summing technical replicates and demarcating test and control PSMs.
 #'
-#' @param exp_id An identifier for a given experiment that matches both test and control files
-#' @param meta_file A tab-separate file with column headers `exp_name` (populated with values that correspond to exp_id variable, `type` (exp or ctrl) `file_id` (determined by Proteome Discoverer)
-#' @param pd_file Proteins.txt tab-separated file output by Proteome Discoverer 2.3
-#' @param psm_df A dataframe output from `format_psm_file()`
-#' @return A dataframe with AUC XIC values, PSM counts and additional PSM info summarized for each accession in test and control cases
+#' @param exp_id An identifier for a given experiment that matches both test and control files.
+#' @param meta_file A tab-separate file with column headers `exp_name` (populated with values that correspond to exp_id variable, `type` (exp or ctrl) `file_id` (determined by Proteome Discoverer).
+#' @param pd_file Proteins.txt tab-separated file output by Proteome Discoverer 2.3.
+#' @param psm_df A dataframe output from `format_psm_file()`.
+#' @return A dataframe with AUC XIC values, PSM counts and additional PSM info summarized for each accession in test and control cases.
 format_pd_file <- function(exp_id, meta_file, pd_file, psm_df){
 
   meta <- readr::read_tsv(meta_file) %>%
