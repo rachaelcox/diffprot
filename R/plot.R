@@ -87,21 +87,21 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs,
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_90,  label = get(acol))) +
       geom_point(size = 1.5) +
-      annotate(geom = "text", x = 0.4*max(data_conf[xcol]), y = 1.3,
+      annotate(geom = "text", x = max(data_conf$xcol), y = min(data_conf$ycol), vjust = 1,
                label = "10% FDR", color = point_color, size = 2.8)
 
   } else if(threshold == 95) {
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_95, label = get(acol))) +
       geom_point(size = 1.5) +
-      annotate(geom = "text", x = 0.4*max(data_conf[xcol]), y = 1.3,
+      annotate(geom = "text", x = max(data_conf$xcol), y = min(data_conf$ycol), vjust = 1,
                label = "5% FDR", color = point_color, size = 2.8)
 
   } else {
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_99, label = get(acol))) +
       geom_point(size = 1.5) +
-      annotate(geom = "text", x = 0.4*max(data_conf[xcol]), y = 1.3,
+      annotate(geom = "text", x = max(data_conf$xcol), y = min(data_conf$ycol), vjust = 1,
                label = "1% FDR", color = point_color, size = 2.8)
 
   }
@@ -201,8 +201,9 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
     p_base <- ggplot(data, aes(x = get(xcol), y = get(ycol),
                                       color = conf_90, label = get(acol))) +
       annotate(geom = "text",
-               x = 0.7*max(data[xcol]),
-               y = 0.15*max(data[ycol]),
+               x = max(data[xcol]),
+               y = min(data[ycol]),
+               vjust = 1,
                label = "10% FDR",
                color = palette_pretty[2], size = 4) +
       geom_hline(yintercept = 1.282, alpha = 0.6) +
@@ -219,8 +220,9 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
                                       color = conf_95, label = get(acol))) +
       #labs(color = "95% Confidence\n") +
       annotate(geom = "text",
-               x = 0.7*max(data[xcol]),
-               y = 0.15*max(data[ycol]),
+               x = max(data[xcol]),
+               y = min(data[ycol]),
+               vjust = 1,
                label = "5% FDR",
                color = palette_pretty[2], size = 4) +
       geom_hline(yintercept = 1.645, alpha = 0.6) +
@@ -236,8 +238,9 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
     p_base <- ggplot(data, aes(x = get(xcol), y = get(ycol),
                                       color = conf_99, label = get(acol))) +
       annotate(geom = "text",
-               x = 0.7*max(data[xcol]),
-               y = 0.15*max(data[ycol]),
+               x = max(data[xcol]),
+               y = min(data[ycol]),
+               vjust = 1,
                label = "1% FDR",
                color = palette_pretty[2], size = 4) +
       geom_hline(yintercept = 2.33, alpha = 0.6) +
