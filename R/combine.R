@@ -13,14 +13,14 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
 
   # combine replicates into one dataframe
   rep1 <- rep1 %>%
-    mutate(rep = "b1") %>%
-    select(-matches("abundance.*"), -matches("number_of.*"),
-           -total_PSMs, -PSM_fc, pval, fdr_bh)
+    dplyr::mutate(rep = "b1") %>%
+    dplyr::select(-matches("abundance.*"), -matches("number_of.*"),
+           -total_PSMs, -PSM_fc, -pval, -fdr_bh)
 
   rep2 <- rep2 %>%
-    mutate(rep = "b2") %>%
-    select(-matches("abundance.*"), -matches("number_of.*"),
-           -total_PSMs, -PSM_fc, pval, fdr_bh)
+    dplyr::mutate(rep = "b2") %>%
+    dplyr::select(-matches("abundance.*"), -matches("number_of.*"),
+           -total_PSMs, -PSM_fc, -pval, -fdr_bh)
 
   if(missing(outfile_prefix)){
     outfile_prefix = "reps_combined"
@@ -38,9 +38,9 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
   } else {
 
     rep3 <- rep3 %>%
-      mutate(rep = "b3") %>%
-      select(-matches("abundance.*"), -matches("number_of.*"),
-             -total_PSMs, -PSM_fc, pval, fdr_bh)
+      dplyr::mutate(rep = "b3") %>%
+      dplyr::select(-matches("abundance.*"), -matches("number_of.*"),
+             -total_PSMs, -PSM_fc, -pval, -fdr_bh)
 
     combined_df <- rep1 %>%
       bind_rows(list(rep2, rep3)) %>%
@@ -60,13 +60,13 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
   # compute cross-replicate statistics
   print("Performing cross-replicate calculations...")
   combined_df <- combined_df %>%
-    mutate_if(is.numeric, replace_na, replace = 0) %>%
-    mutate(joint_zscore = rowSums(select(., zcols))/sqrt(length(zcols))) %>%
-    mutate(mean_ctrl_PSMs = rowMeans(select(., ccols))) %>%
-    mutate(mean_exp_PSMs = rowMeans(select(., ecols))) %>%
-    select(accession, matches("_b\\d"), matches("mean_"),
+    dplyr::mutate_if(is.numeric, replace_na, replace = 0) %>%
+    dplyr::mutate(joint_zscore = rowSums(select(., zcols))/sqrt(length(zcols))) %>%
+    dplyr::mutate(mean_ctrl_PSMs = rowMeans(select(., ccols))) %>%
+    dplyr::mutate(mean_exp_PSMs = rowMeans(select(., ecols))) %>%
+    dplyr::select(accession, matches("_b\\d"), matches("mean_"),
            joint_zscore, everything()) %>%
-    arrange(desc(joint_zscore))
+    dplyr::arrange(desc(joint_zscore))
 
   # calculate probabilities
   if(!one_sided){
