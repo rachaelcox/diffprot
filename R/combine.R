@@ -15,12 +15,12 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
   rep1 <- rep1 %>%
     mutate(rep = "b1") %>%
     select(-matches("abundance.*"), -matches("number_of.*"),
-           -total_PSMs, -PSM_fc)
+           -total_PSMs, -PSM_fc, pval, fdr_bh)
 
   rep2 <- rep2 %>%
     mutate(rep = "b2") %>%
     select(-matches("abundance.*"), -matches("number_of.*"),
-           -total_PSMs, -PSM_fc)
+           -total_PSMs, -PSM_fc, pval, fdr_bh)
 
   if(missing(outfile_prefix)){
     outfile_prefix = "reps_combined"
@@ -40,7 +40,7 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
     rep3 <- rep3 %>%
       mutate(rep = "b3") %>%
       select(-matches("abundance.*"), -matches("number_of.*"),
-             -total_PSMs, -PSM_fc)
+             -total_PSMs, -PSM_fc, pval, fdr_bh)
 
     combined_df <- rep1 %>%
       bind_rows(list(rep2, rep3)) %>%
