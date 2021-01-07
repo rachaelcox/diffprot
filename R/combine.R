@@ -68,14 +68,14 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
            joint_zscore, everything()) %>%
     dplyr::arrange(desc(joint_zscore))
 
-  # calculate probabilities
+  # calculate probability values
   if(!one_sided){
     combined_df <- combined_df %>%
       dplyr::mutate(pval = pnorm(joint_zscore)) %>%
       dplyr::mutate(fdr_bh = p.adjust(pval, method = "BH", n = length(pval)))
   } else {
     combined_df <- combined_df %>%
-      dplyr::mutate(pval = pnorm(joint_zscoree, lower.tail = FALSE)) %>%
+      dplyr::mutate(pval = pnorm(joint_zscore, lower.tail = FALSE)) %>%
       dplyr::mutate(fdr_bh = p.adjust(pval, method = "BH", n = length(pval)))
   }
 
@@ -86,7 +86,9 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
                   conf_95 = dplyr::case_when(fdr_bh <= 0.05 ~ TRUE,
                                              TRUE ~ FALSE),
                   conf_99 = dplyr::case_when(fdr_bh <= 0.01 ~ TRUE,
-                                             TRUE ~ FALSE))
+                                             TRUE ~ FALSE)) %>%
+    select(accession, matches("_b\\d"), matches("mean_"),
+           joint_zscore, pval, fdr_bh, everything())
 
   readr::write_csv(combined_df, sprintf("%s_combined.csv", outfile_prefix))
   print(combined_df)
