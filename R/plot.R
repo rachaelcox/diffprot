@@ -86,22 +86,22 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs,
   if(threshold == 90){
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_90,  label = get(acol))) +
-      geom_point(size = 1.5) +
-      annotate(geom = "text", x = max(data_conf$xcol), y = min(data_conf$ycol), vjust = 1,
+      geom_point(alpha = 0.75, size = 1.5) +
+      annotate(geom = "text", x = max(data_conf$xcol), y = 0.1*max(data_conf$ycol), vjust = 1,
                label = "10% FDR", color = point_color, size = 2.8)
 
   } else if(threshold == 95) {
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_95, label = get(acol))) +
-      geom_point(size = 1.5) +
-      annotate(geom = "text", x = max(data_conf$xcol), y = min(data_conf$ycol), vjust = 1,
+      geom_point(alpha = 0.75, size = 1.5) +
+      annotate(geom = "text", x = max(data_conf$xcol), y = 0.1*max(data_conf$ycol), vjust = 1,
                label = "5% FDR", color = point_color, size = 2.8)
 
   } else {
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_99, label = get(acol))) +
-      geom_point(size = 1.5) +
-      annotate(geom = "text", x = max(data_conf$xcol), y = min(data_conf$ycol), vjust = 1,
+      geom_point(alpha = 0.75, size = 1.5) +
+      annotate(geom = "text", x = max(data_conf$xcol), y = 0.1*max(data_conf$ycol), vjust = 1,
                label = "1% FDR", color = point_color, size = 2.8)
 
   }
@@ -165,7 +165,7 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
   }
 
   if(missing(num_labels)){
-    num_labs = 10
+    num_labels = 10
   }
 
   if(missing(threshold)){
@@ -199,7 +199,7 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
 
   if(threshold == 90){
     p_base <- ggplot(data, aes(x = get(xcol), y = get(ycol),
-                                      color = conf_90, label = get(acol))) +
+                               color = conf_90, label = get(acol))) +
       annotate(geom = "text",
                x = max(data[xcol]),
                y = min(data[ycol]),
@@ -255,7 +255,7 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
 
 
   pz <- p_base +
-    geom_point(alpha = 0.5, size = 1.5) +
+    geom_point(alpha = 0.75, size = 1.5) +
     ggrepel::geom_text_repel(data = label_subset,
                     size = 6.5/.pt, # font size
                     fontface = "bold",
