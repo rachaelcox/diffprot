@@ -36,7 +36,11 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs,
   }
 
   if(missing(num_labs)){
-    num_labs = 0
+    num_labs = 10
+  }
+
+  if(missing(threshold)){
+    threshold = 99
   }
 
   if(missing(point_color)){
@@ -87,22 +91,22 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs,
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_90,  label = get(acol))) +
       geom_point(alpha = 0.75, size = 1.5) +
-      annotate(geom = "text", x = 0.4*max(data_conf[xcol]), y = 1, vjust = 1,
-               label = "10% FDR", color = point_color, size = 2.8)
+      annotate(geom = "text", x = Inf, y = 1, vjust = 1, hjust = 1,
+               label = "10% FDR", color = point_color, size = 4)
 
   } else if(threshold == 95) {
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_95, label = get(acol))) +
       geom_point(alpha = 0.75, size = 1.5) +
-      annotate(geom = "text", x = 0.4*max(data_conf[xcol]), y = 1, vjust = 1,
-               label = "5% FDR", color = point_color, size = 2.8)
+      annotate(geom = "text", x = Inf, y = 1, vjust = 1, hjust = 1,
+               label = "5% FDR", color = point_color, size = 4)
 
   } else {
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_99, label = get(acol))) +
       geom_point(alpha = 0.75, size = 1.5) +
-      annotate(geom = "text", 0.4*max(data_conf[xcol]), y = 1, vjust = 1,
-               label = "1% FDR", color = point_color, size = 2.8)
+      annotate(geom = "text", x = Inf, y = 1, vjust = 1, hjust = 1,
+               label = "1% FDR", color = point_color, size = 4)
 
   }
 
