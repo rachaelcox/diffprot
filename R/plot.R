@@ -87,21 +87,21 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs,
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_90,  label = get(acol))) +
       geom_point(alpha = 0.75, size = 1.5) +
-      annotate(geom = "text", x = max(data_conf$xcol), y = 0.1*max(data_conf$ycol), vjust = 1,
+      annotate(geom = "text", x = Inf, y = -Inf, vjust = 1,
                label = "10% FDR", color = point_color, size = 2.8)
 
   } else if(threshold == 95) {
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_95, label = get(acol))) +
       geom_point(alpha = 0.75, size = 1.5) +
-      annotate(geom = "text", x = max(data_conf$xcol), y = 0.1*max(data_conf$ycol), vjust = 1,
+      annotate(geom = "text", x = Inf, y = -Inf, vjust = 1,
                label = "5% FDR", color = point_color, size = 2.8)
 
   } else {
     p1 <- ggplot(data_conf, aes(x = get(xcol), y = get(ycol),
                                 color = conf_99, label = get(acol))) +
       geom_point(alpha = 0.75, size = 1.5) +
-      annotate(geom = "text", x = max(data_conf$xcol), y = 0.1*max(data_conf$ycol), vjust = 1,
+      annotate(geom = "text", x = Inf, y = -Inf, vjust = 1,
                label = "1% FDR", color = point_color, size = 2.8)
 
   }
