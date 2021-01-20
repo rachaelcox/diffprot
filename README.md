@@ -1,4 +1,4 @@
-# enrichr
+# diffprot
 Annotate, compute, and visualize fold-changes and Z-scores for differential proteomics results.
 
 ### Functions
@@ -16,7 +16,7 @@ Annotate, compute, and visualize fold-changes and Z-scores for differential prot
 Run the following code:
 ``` r
 install.packages("devtools")  # if devtools not installed
-devtools::install_github("rachaelcox/enrichr")
-library(enrichr)
+devtools::install_github("rachaelcox/diffprot")
+library(diffprot)
 ```
 ### Example workflow
