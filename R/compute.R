@@ -89,7 +89,7 @@ compute_fxn <- function(pd_impute_df, one_sided = FALSE){
 #' @export
 enrich <- function(exp_id, meta_file, psm_file, pd_file, one_sided = FALSE, annot_file, outfile_name = "output.csv"){
 
-  if(str_sub(outfile_name, -3, -1) != "csv"){
+  if(stringr::str_sub(outfile_name, -3, -1) != "csv"){
     outfile_name = paste0(outfile_name, ".csv")
   }
 

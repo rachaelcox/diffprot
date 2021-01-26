@@ -51,7 +51,7 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs,
   ycol <- grep('exp_PSMs$', names(data), value = TRUE)
   zcol <- grep('_zscore$', names(data), value = TRUE)
 
-  if(grep('gene_names_primary', names(data))){
+  if(any(grepl('gene_names_primary', names(data)))){
     acol <- grep('gene_names_primary$',
                  names(data), value = TRUE)
   } else {
