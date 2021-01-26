@@ -1,5 +1,5 @@
-Package: enrichr
-Title: Compute Protein Enrichment
+Package: diffprot
+Title: Compute Differential Proteomics
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Rachael",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "rachaelcox@utexas.edu",
            comment = c(ORCID = "0000-0001-5407-1101"))
-Description: Tools for processing mass spectrometry data pre-processed by Proteome Discoverer. Calculates differential enrichment of both peptide-spectrum matches (PSMs) and the AUC of extracted ion chromatograms (XICs).
+Description: Tools for processing mass spectrometry data where peptides have been pre-assigned by Proteome Discoverer. Calculates differential enrichment of both peptide-spectrum matches (PSMs) and the AUC of extracted ion chromatograms (XICs).
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
