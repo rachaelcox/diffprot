@@ -1,0 +1,13 @@
+exp_name	type	id
+cadherin_b1	ctrl	f19
+cadherin_b1	ctrl	f20
+cadherin_b1	exp	f21
+cadherin_b1	exp	f22
+cadherin_b1	ctrl	f23
+cadherin_b1	ctrl	f24
+cadherin_b1	exp	f25
+cadherin_b1	exp	f26
+cadherin_b2	ctrl	f27
+cadherin_b2	ctrl	f28
+cadherin_b2	exp	f29
+cadherin_b2	exp	f30

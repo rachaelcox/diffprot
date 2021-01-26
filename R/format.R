@@ -7,7 +7,8 @@
 format_psm_file <- function(exp_id, meta_file, psm_file){
 
   meta <- readr::read_tsv(meta_file) %>%
-    dplyr::filter(exp_name == exp_id)
+    dplyr::filter(exp_name == exp_id) %>%
+    dplyr::mutate(id = tolower(id))
 
   psm_df <- readr::read_tsv(psm_file, col_types = list("Quan Info" = col_character())) %>%
     janitor::clean_names() %>%
@@ -45,7 +46,8 @@ format_psm_file <- function(exp_id, meta_file, psm_file){
 format_pd_file <- function(exp_id, meta_file, pd_file, psm_df){
 
   meta <- readr::read_tsv(meta_file) %>%
-    dplyr::filter(exp_name == exp_id)
+    dplyr::filter(exp_name == exp_id) %>%
+    dplyr::mutate(id = tolower(id))
 
   pd_df <- readr::read_tsv(pd_file) %>%
     janitor::clean_names() %>%
