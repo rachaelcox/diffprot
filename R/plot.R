@@ -1,6 +1,6 @@
 #' Visualize control PSMs versus test PSMs on a log-log plot.
 #'
-#' Graphs control PSMs versus test PSMs on a log-log plot. A pseudocount of 1 is adding to all PSMs for log-log visualization. Colored by Z-test threshold. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
+#' Graphs control PSMs versus test PSMs on a log-log plot. A pseudocount of 1 is adding to all PSMs for log-log visualization. Colored by Z-test threshold. See README for file formats and example usage on the \href{https://github.com/rachaelcox/diffprot}{diffprot GitHub Repository}.
 #'
 #' @param data A data frame produced by `enrich()`.
 #' @param ylab Text for y-axis label; will correspond to test PSMs.
@@ -50,7 +50,14 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs,
   xcol <- grep('ctrl_PSMs$', names(data), value = TRUE)
   ycol <- grep('exp_PSMs$', names(data), value = TRUE)
   zcol <- grep('_zscore$', names(data), value = TRUE)
-  acol <- grep('gene_names_primary$', names(data), value = TRUE)
+
+  if(grep('gene_names_primary', names(data))){
+    acol <- grep('gene_names_primary$',
+                 names(data), value = TRUE)
+  } else {
+    acol <- grep('accession',
+                 names(data), value = TRUE)
+  }
 
   # calculate thresholds
   data_conf <- data %>%
@@ -144,7 +151,7 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs,
 
 #' Plot Z-scores across biological replicates.
 #'
-#' Colored by a multiple hypothesis corrected false discovery rate (FDR) computed on a weighted Z-score. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
+#' Colored by a multiple hypothesis corrected false discovery rate (FDR) computed on a weighted Z-score. See README for file formats and example usage on the \href{https://github.com/rachaelcox/diffprot}{diffprot GitHub Repository}.
 #'
 #' @param data A data frame produced by `combine_reps()`.
 #' @param ycol Name of column containing y-axis data; should correspond to replicate #1 Z-scores.
