@@ -14,10 +14,10 @@ More detailed descriptions of each function and their parameters can be accessed
 
 The `enrich()` function requires a minimum of 3 files to work:
 
-1. A `_Protein.txt` file from Proteome Discoverer.
-2. A `_PSMs.txt` file from Proteome Discoverer.
-3. A `_meta.txt` file that describes the relationship between control/test samples and their file IDs assigned by Proteome Discoverer.
-4. Optional: an annotation file with columns `accession` and `gene_names_primary`.
+1. A tab-delimited `_Protein.txt` file from Proteome Discoverer.
+2. A tab-delimited `_PSMs.txt` file from Proteome Discoverer.
+3. A manually generated, tab-delimited `_meta.txt` file that describes the relationship between control/test samples and their file IDs assigned by Proteome Discoverer.
+4. (Optional) A tab-delimited annotation file with columns `accession` and `gene_names_primary`.
 
 #### Preparing Proteome Discoverer files
 
