@@ -29,6 +29,8 @@ psmplot(
 \item{ylab}{Text for y-axis label; will correspond to test PSMs.}
 
 \item{xlab}{Text for x-axis label; will correspond to control PSMs.}
+
+\item{point_color}{Optional. Hex code given as a string to change the color of statistically significant points (default = "#FF0000")}
 }
 \value{
 PSM log-log plots in \code{.png} and \code{.pdf} format.

@@ -13,7 +13,7 @@ zplot(
   xcol,
   threshold,
   label_file,
-  num_labels
+  num_labs
 )
 }
 \arguments{

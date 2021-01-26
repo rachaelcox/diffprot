@@ -7,7 +7,8 @@
 #' @param xlab Text for x-axis label; will correspond to control PSMs.
 #' @param threshold Optional. FDR threshold to color points by. One of c(90, 95, 99). Default = 5% FDR (fdr_bh <= 0.05).
 #' @param num_labs Optional. Number of annotation labels to display. Requires input to have an annotation column named `gene_names_primary`. Default = 0.
-#' @param  label_file Optional. Comma-separated file containing names of genes to be labeled on the plot; requires input to have an annotation column named `gene_names_primary` and labels must match format in the column.
+#' @param label_file Optional. Comma-separated file containing names of genes to be labeled on the plot; requires input to have an annotation column named `gene_names_primary` and labels must match format in the column.
+#' @param point_color Optional. Hex code given as a string to change the color of statistically significant points (default = "#FF0000")
 #' @param outfile_prefix Optional. File prefix for output `.png` and `.pdf` files. Default = "output."
 #' @return PSM log-log plots in `.png` and `.pdf` format.
 #' @export
@@ -164,7 +165,7 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs,
 #' @return Plot depicting replicate 1 z-score vs replicate 2 z-scores in `.png` and `.pdf` format. Colored by FDR.
 #' @export
 zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
-                      threshold, label_file, num_labels){
+                      threshold, label_file, num_labs){
 
   theme_set(cowplot::theme_cowplot())
   palette_pretty <- c("#1E1E1E", "#FF0000", "#0072B2",
@@ -174,8 +175,8 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
     outfile_prefix = "output"
   }
 
-  if(missing(num_labels)){
-    num_labels = 10
+  if(missing(num_labs)){
+    num_labs = 10
   }
 
   if(missing(threshold)){
@@ -199,7 +200,7 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
   if(missing(label_file)){   # take top n labels if no label file
     label_subset <- data %>%
       dplyr::arrange(desc(zcol)) %>%
-      dplyr::slice_head(n = num_labels)
+      dplyr::slice_head(n = num_labs)
 
   } else {
     labels <- readr::read_csv(label_file, col_names = FALSE)
