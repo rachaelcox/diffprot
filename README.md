@@ -2,15 +2,13 @@
 Annotate, compute, and visualize fold-changes and Z-scores for differential proteomics results.
 
 ## Functions
-**`enrich()`**: Compute AUC XICs fold-changes (optional) and PSMs fold-changes/Z-scores for `_Proteins.txt` and `_PSMs.txt` assignment files output by Proteome Discoverer 2.3. Annotates results given an annotation table (optional). Annotation table must contain column named `gene_names_primary`. Outputs a .csv file with results.
+More detailed descriptions of each function and their parameters can be accessed in R by using `?enrich`, `?psmplot`, `?combine_reps`, `?combine_exps`, or `?zplot`. Briefly, features of this package are provided below:
 
-**`psmplot()`**: Visualize control PSMs versus test PSMs on a log-log plot. Uses dataframe output by `enrich()` as input. Requires annotation column with name ending in `gene_names_primary`. Outputs .png and .pdf files.
-
-**`combine_reps()`**: Combine biological replicates, i.e., combines dataframes output by `enrich()`. Outputs a .csv file with results.
-
-**`combine_exps()`**: Combines experiments, i.e., combines dataframes output by `combine_reps()`.
-
-**`zplot()`**: Visualize PSM-based Z-scores for proteins biological replicates. Uses dataframe output by `combine_reps()` or `combine_exps()` as input. Requires annotation column with name ending in `gene_names_primary`. Outputs .png and .pdf files.
+- **`enrich()`**: Compute AUC XICs fold-changes (optional) and PSMs fold-changes/Z-scores for `_Proteins.txt` and `_PSMs.txt` assignment files output by Proteome Discoverer 2.3. Annotates results given an annotation table (optional). Annotation table must contain column named `gene_names_primary`. Outputs a .csv file with results.
+- **`psmplot()`**: Visualize control PSMs versus test PSMs on a log-log plot. Uses dataframe output by `enrich()` as input. Requires annotation column with name ending in `gene_names_primary`. Outputs .png and .pdf files.
+- **`combine_reps()`**: Combine biological replicates, i.e., combines dataframes output by `enrich()`. Outputs a .csv file with results.
+- **`combine_exps()`**: Combines experiments, i.e., combines dataframes output by `combine_reps()`.
+- **`zplot()`**: Visualize PSM-based Z-scores for proteins biological replicates. Uses dataframe output by `combine_reps()` or `combine_exps()` as input. Requires annotation column with name ending in `gene_names_primary`. Outputs .png and .pdf files.
 
 ## Data preparation
 
@@ -58,9 +56,9 @@ devtools::install_github("rachaelcox/diffprot")
 library(diffprot)
 ```
 ## Example workflow
-Compute fold-changes and z-scores for test versus control samples for each biological replicate using `enrich()`. This function outputs a .csv (openable in Excel) with statistics computed for each protein detected in either the test or control cases. In this APMS example, we are only interested in proteins positively enriched in our test case, so we need to set `one_sided = TRUE` to specify we want one-sided statistical tests.
+Compute fold-changes and z-scores for test versus control samples for each biological replicate using **`enrich()`**. This function outputs a .csv (openable in Excel) with statistics computed for each protein detected in either the test or control cases. In this APMS example, we are only interested in proteins positively enriched in our test case, so we need to set `one_sided = TRUE` to specify we want one-sided probability statistics.
 ```r
-# compute differential protein abundance for biological replicate #1
+# compute differential protein abundance for 1 biological replicate
 cadherin_b1 <- enrich(exp_id = "cadherin_b1",
                       meta_file = "cadherin_meta.txt",
                       psm_file = "cadherin_b1_052920_Proteins.txt",
@@ -76,9 +74,21 @@ cadherin_b1 <- enrich(exp_id = "cadherin_b1",
                       pd_file = "cadherin_b1_052920_PSMs.txt",
                       one_sided = TRUE,
                       annot_file = "xenla_annots.tab",
-                      outfile_name = "cadherin_b1")
+                      outfile_name = "inst/extdata/cadherin_b1")
 ```
-Ideally you have more than one biological replicate to power your results; if so, you can use `combine_reps()` to combine them, calculate a `joint_zscore` and resulting probability statistics. This function outputs another .csv file.
+The enrichment of protein PSMs over the control can be visualized on a log-log plot using **psm_plot()**. If you previously annotated your data with a table downloaded from UniProt, the function will detect the column `gene_names_primary` and use it to label data points (default = 10; set `num_labs` to customize). Points are colored by statistical signifinance, depending on what threshold you set (one of 90%, 95%, or 99%) that's multiple hypothesis corrected.
+```r
+psmplot(data = cadherin_b1, 
+        xlab = "control PSMs", 
+        ylab = "test PSMs", 
+        threshold = 90, 
+        outfile_prefix = "inst/extdata/figures/cad_b1")
+```
+Which saves .pdf and .png files that look like this:
+
+![GFP-Cadherin APMS, Differential PSMs](inst/extdata/figures/cad_b1_PSMloglog.png)
+
+Ideally you have more than one biological replicate to power your results; if so, you can use **`combine_reps()`** to combine them, calculate a `joint_zscore` and resulting probability statistics. This function outputs another .csv file containing PSM calculations for both biological replicates, sorted automatically by `joint_zscore`.
 ```r
 # compute differential protein abundance for biological replicate #2
 cadherin_b2 <- enrich(exp_id = "cadherin_b2",
@@ -87,15 +97,20 @@ cadherin_b2 <- enrich(exp_id = "cadherin_b2",
                       pd_file = "cadherin_b2_052920_PSMs.txt",
                       one_sided = TRUE,
                       annot_file = "xenla_annots.tab",
-                      outfile_name = "cadherin_b2")
+                      outfile_name = "inst/extdata/cadherin_b2")
 
 # combine bio reps
 cadherin_all <- combine_reps(rep1 = cadherin_b1,
                              rep2 = cadherin_b2,
                              one_sided = TRUE,
-                             outfile_prefix = "cadherin")
+                             outfile_prefix = "inst/extdata/cadherin_all")
 ```
-
-
+With two or more biological replicates combined into one dataframe (in this example, `cadherin_all`), you can visualize the consistency between replicates by using **`zplot()`**. Again, points are colored by a set confidence threshold (one of 90, 95, or 99) that's multiple hypothesis corrected, and solid lines are drawn on the plot to show z-score cutoffs for that threshold.
+```r
+zplot(data = cadherin_all, xlab = "rep #2 z-scores", xcol = "PSM_zscore_b2",
+      ylab = "rep #1 z-scores", ycol = "PSM_zscore_b1", threshold = 90,
+      outfile_prefix = "inst/extdata/figures/cadherin")
+```
+![GFP-Cadherin APMS, Z-Score Comparison Across Replicates](inst/extdata/figures/cadherin_zplot.png)
 
 
