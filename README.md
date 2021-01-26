@@ -2,15 +2,15 @@
 Annotate, compute, and visualize fold-changes and Z-scores for differential proteomics results.
 
 ## Functions
-**`enrich()`**: Compute AUC XICs fold-changes (optional) and PSMs fold-changes/Z-scores for `_Proteins.txt` and `_PSMs.txt` assignment files output by Proteome Discoverer 2.3. Annotates results given an annotation table (optional). Annotation table must contain column named `gene_names_primary`.
+**`enrich()`**: Compute AUC XICs fold-changes (optional) and PSMs fold-changes/Z-scores for `_Proteins.txt` and `_PSMs.txt` assignment files output by Proteome Discoverer 2.3. Annotates results given an annotation table (optional). Annotation table must contain column named `gene_names_primary`. Outputs a .csv file with results.
 
-**`psmplot()`**: Visualize control PSMs versus test PSMs on a log-log plot. Uses dataframe output by `enrich()` as input. Requires annotation column with name ending in `gene_names_primary`.
+**`psmplot()`**: Visualize control PSMs versus test PSMs on a log-log plot. Uses dataframe output by `enrich()` as input. Requires annotation column with name ending in `gene_names_primary`. Outputs .png and .pdf files.
 
-**`combine_reps()`**: Combine biological replicates, i.e., combines dataframes output by `enrich()`.
+**`combine_reps()`**: Combine biological replicates, i.e., combines dataframes output by `enrich()`. Outputs a .csv file with results.
 
 **`combine_exps()`**: Combines experiments, i.e., combines dataframes output by `combine_reps()`.
 
-**`zplot()`**: Visualize PSM-based Z-scores for proteins biological replicates. Uses dataframe output by `combine_reps()` or `combine_exps()` as input. Requires annotation column with name ending in `gene_names_primary`. 
+**`zplot()`**: Visualize PSM-based Z-scores for proteins biological replicates. Uses dataframe output by `combine_reps()` or `combine_exps()` as input. Requires annotation column with name ending in `gene_names_primary`. Outputs .png and .pdf files.
 
 ## Data preparation
 
@@ -58,5 +58,44 @@ devtools::install_github("rachaelcox/diffprot")
 library(diffprot)
 ```
 ## Example workflow
-Compute fold-changes and z-scores for test versus control samples for each biological replicate using `enrich()`. This function outputs a .csv (openable in Excel) with statistics computed for each protein detected in either the test or control cases.
+Compute fold-changes and z-scores for test versus control samples for each biological replicate using `enrich()`. This function outputs a .csv (openable in Excel) with statistics computed for each protein detected in either the test or control cases. In this APMS example, we are only interested in proteins positively enriched in our test case, so we need to set `one_sided = TRUE` to specify we want one-sided statistical tests.
+```r
+# compute differential protein abundance for biological replicate #1
+cadherin_b1 <- enrich(exp_id = "cadherin_b1",
+                      meta_file = "cadherin_meta.txt",
+                      psm_file = "cadherin_b1_052920_Proteins.txt",
+                      pd_file = "cadherin_b1_052920_PSMs.txt",
+                      one_sided = TRUE)
+```
+We often use abstract accessions or grouped identifiers in search databases for assigning peptide mass spectrometry data. Sometimes these accessions are not useful, so this package will also annotate your data given a properly formatted annotation file (UniProt is a great source for this).
+```r
+# optionally annotate your data
+cadherin_b1 <- enrich(exp_id = "cadherin_b1",
+                      meta_file = "cadherin_meta.txt",
+                      psm_file = "cadherin_b1_052920_Proteins.txt",
+                      pd_file = "cadherin_b1_052920_PSMs.txt",
+                      one_sided = TRUE,
+                      annot_file = "xenla_annots.tab",
+                      outfile_name = "cadherin_b1")
+```
+Ideally you have more than one biological replicate to power your results; if so, you can use `combine_reps()` to combine them, calculate a `joint_zscore` and resulting probability statistics. This function outputs another .csv file.
+```r
+# compute differential protein abundance for biological replicate #2
+cadherin_b2 <- enrich(exp_id = "cadherin_b2",
+                      meta_file = "cadherin_meta.txt",
+                      psm_file = "cadherin_b2_052920_Proteins.txt",
+                      pd_file = "cadherin_b2_052920_PSMs.txt",
+                      one_sided = TRUE,
+                      annot_file = "xenla_annots.tab",
+                      outfile_name = "cadherin_b2")
+
+# combine bio reps
+cadherin_all <- combine_reps(rep1 = cadherin_b1,
+                             rep2 = cadherin_b2,
+                             one_sided = TRUE,
+                             outfile_prefix = "cadherin")
+```
+
+
+
 
