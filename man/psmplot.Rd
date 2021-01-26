@@ -34,5 +34,5 @@ psmplot(
 PSM log-log plots in \code{.png} and \code{.pdf} format.
 }
 \description{
-Graphs control PSMs versus test PSMs on a log-log plot. A pseudocount of 1 is adding to all PSMs for log-log visualization. Colored by Z-test threshold. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
+Graphs control PSMs versus test PSMs on a log-log plot. A pseudocount of 1 is adding to all PSMs for log-log visualization. Colored by Z-test threshold. See README for file formats and example usage on the \href{https://github.com/rachaelcox/diffprot}{diffprot GitHub Repository}.
 }

@@ -39,5 +39,5 @@ zplot(
 Plot depicting replicate 1 z-score vs replicate 2 z-scores in \code{.png} and \code{.pdf} format. Colored by FDR.
 }
 \description{
-Colored by a multiple hypothesis corrected false discovery rate (FDR) computed on a weighted Z-score. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
+Colored by a multiple hypothesis corrected false discovery rate (FDR) computed on a weighted Z-score. See README for file formats and example usage on the \href{https://github.com/rachaelcox/diffprot}{diffprot GitHub Repository}.
 }

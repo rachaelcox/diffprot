@@ -138,14 +138,13 @@ psmplot <- function(data, outfile_prefix, threshold, num_labs,
     xlab(xlab) +
     ylab(ylab)
 
-  p2
-
-  ggsave(sprintf("%s_PSMloglog.pdf", outfile_prefix), plot = p2,
+  ggsave(sprintf("%s_psmplot.pdf", outfile_prefix), plot = p2,
          device = "pdf", width = 8, height = 6, units = "in")
 
-  ggsave(sprintf("%s_PSMloglog.png", outfile_prefix), plot = p2,
+  ggsave(sprintf("%s_psmplot.png", outfile_prefix), plot = p2,
          device = "png", width = 8, height = 6, units = "in")
 
+  print(p2)
   return(p2)
 }
 
@@ -183,7 +182,14 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
     threshold = 95
   }
 
-  acol <- grep('gene_names_primary$', names(data), value = TRUE)
+  if(any(grepl('gene_names_primary', names(data)))){
+    acol <- grep('gene_names_primary$',
+                 names(data), value = TRUE)
+  } else {
+    acol <- grep('accession',
+                 names(data), value = TRUE)
+  }
+
   zcol <- grep('joint_zscore', names(data), value = TRUE)
 
   if(length(zcol) > 1){
@@ -291,10 +297,10 @@ zplot <- function(data, outfile_prefix, ylab, xlab, ycol, xcol,
     xlab(xlab) +
     ylab(ylab)
 
-  ggsave(sprintf("%s_zscore_comparison.pdf", outfile_prefix), plot = pz,
+  ggsave(sprintf("%s_zplot.pdf", outfile_prefix), plot = pz,
          width = 8, height = 6, units = "in")
 
-  ggsave(sprintf("%s_zscore_comparison.png", outfile_prefix), plot = pz,
+  ggsave(sprintf("%s_zplot.png", outfile_prefix), plot = pz,
          width = 8, height = 6, units = "in")
 
   print(pz)

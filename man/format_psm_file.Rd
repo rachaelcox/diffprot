@@ -14,7 +14,7 @@ format_psm_file(exp_id, meta_file, psm_file)
 \item{psm_file}{PSM.txt tab-separated file output by Proteome Discoverer 2.3.}
 }
 \value{
-A dataframe with PSMs summarized for each accession in test and control cases.
+A data frame with PSMs summarized for each accession in test and control cases.
 }
 \description{
 Format a PSM.txt file output by Proteome Discoverer 2.3, summing technical replicates and demarcating test and control PSMs.

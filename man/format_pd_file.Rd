@@ -13,10 +13,10 @@ format_pd_file(exp_id, meta_file, pd_file, psm_df)
 
 \item{pd_file}{Proteins.txt tab-separated file output by Proteome Discoverer 2.3.}
 
-\item{psm_df}{A dataframe output from \code{format_psm_file()}.}
+\item{psm_df}{A data frame output from \code{format_psm_file()}.}
 }
 \value{
-A dataframe with AUC XIC values, PSM counts and additional PSM info summarized for each accession in test and control cases.
+A data frame with AUC XIC values, PSM counts and additional PSM info summarized for each accession in test and control cases.
 }
 \description{
 Format a Proteins.txt file output by Proteome Discoverer 2.3, summing technical replicates and demarcating test and control PSMs.

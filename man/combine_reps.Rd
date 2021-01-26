@@ -21,5 +21,5 @@ combine_reps(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix)
 A data frame and \code{.csv} with PSM information across biological replicates combined into one table.
 }
 \description{
-Combine replicate proteomics experiments. Calculates mean PSMs across test and control runs. Calculates weighted z-scores using Stouffer's Z-score method. Calculates p-values and FDR on the weighted Z-score using the Benjamini-Hochberg procedure. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
+Combine replicate proteomics experiments. Calculates mean PSMs across test and control runs. Calculates weighted z-scores using Stouffer's Z-score method. Calculates p-values and FDR on the weighted Z-score using the Benjamini-Hochberg procedure. See README for file formats and example usage on the \href{https://github.com/rachaelcox/diffprot}{diffprot GitHub Repository}.
 }

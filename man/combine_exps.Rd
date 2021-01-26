@@ -21,5 +21,5 @@ combine_exps(exp1, exp2, exp1_id, exp2_id, outfile_prefix)
 A data frame and \code{.csv} with PSM information across biological replicates combined into one table.
 }
 \description{
-Combine different proteomics experiments, i.e., an HA-tag pulldown and a TurboID-biotin pulldown. Compares joint z-scores and FDR across each experiment. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
+Combine different proteomics experiments, i.e., an HA-tag pulldown and a TurboID-biotin pulldown. Compares joint z-scores and FDR across each experiment. See README for file formats and example usage on the \href{https://github.com/rachaelcox/diffprot}{diffprot GitHub Repository}.
 }

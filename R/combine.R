@@ -1,6 +1,6 @@
 #' Combine replicates for a proteomics experiment.
 #'
-#' Combine replicate proteomics experiments. Calculates mean PSMs across test and control runs. Calculates weighted z-scores using Stouffer's Z-score method. Calculates p-values and FDR on the weighted Z-score using the Benjamini-Hochberg procedure. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
+#' Combine replicate proteomics experiments. Calculates mean PSMs across test and control runs. Calculates weighted z-scores using Stouffer's Z-score method. Calculates p-values and FDR on the weighted Z-score using the Benjamini-Hochberg procedure. See README for file formats and example usage on the \href{https://github.com/rachaelcox/diffprot}{diffprot GitHub Repository}.
 #'
 #' @param rep1 A data frame produced by `enrich_fxn()` corresponding to replicate 1.
 #' @param rep2 A data frame produced by `enrich_fxn()` corresponding to replicate 2.
@@ -11,7 +11,7 @@
 #' @export
 combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
 
-  # combine replicates into one dataframe
+  # combine replicates into one data frame
   rep1 <- rep1 %>%
     dplyr::mutate(rep = "b1") %>%
     dplyr::select(-matches("abundance.*"), -matches("number_of.*"),
@@ -90,14 +90,14 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
     select(accession, matches("_b\\d"), matches("mean_"),
            joint_zscore, pval, fdr_bh, everything())
 
-  readr::write_csv(combined_df, sprintf("%s_combined.csv", outfile_prefix))
+  readr::write_csv(combined_df, sprintf("%s_.csv", outfile_prefix))
   print(combined_df)
   return(combined_df)
 }
 
 #' Combine and compare proteomics experiments.
 #'
-#' Combine different proteomics experiments, i.e., an HA-tag pulldown and a TurboID-biotin pulldown. Compares joint z-scores and FDR across each experiment. See README for file formats and example usage on the \href{https://github.com/rachaelcox/enrichr}{enrichr GitHub Repository}.
+#' Combine different proteomics experiments, i.e., an HA-tag pulldown and a TurboID-biotin pulldown. Compares joint z-scores and FDR across each experiment. See README for file formats and example usage on the \href{https://github.com/rachaelcox/diffprot}{diffprot GitHub Repository}.
 #'
 #' @param exp1 A data frame produced by `combine_reps()` corresponding to experiment 1.
 #' @param exp2 A data frame produced by `combine_reps()` corresponding to experiment 2.
@@ -111,7 +111,7 @@ combine_exps <- function(exp1, exp2, exp1_id, exp2_id, outfile_prefix){
   cols <- grep('joint_zscore|fdr_bh', names(exp1), value = TRUE)
 
   if(length(cols) == 0){
-    stop("It doesn't look like you're using the correct dataframes as input. \\
+    stop("It doesn't look like you're using the correct data frames as input. \\
          Are you looking for `combine_reps()`? This function uses data frames output by `combine_reps()`. \\
          See `?combine_exps` and `?combine_reps` for more details.")
   }
