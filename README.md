@@ -76,7 +76,7 @@ cadherin_b1 <- enrich(exp_id = "cadherin_b1",
                       annot_file = "xenla_annots.tab",
                       outfile_name = "inst/extdata/cadherin_b1")
 ```
-The enrichment of protein PSMs over the control can be visualized on a log-log plot using **psm_plot()**. If you previously annotated your data with a table downloaded from UniProt, the function will detect the column `gene_names_primary` and use it to label data points (default = 10; set `num_labs` to customize). Points are colored by statistical signifinance, depending on what threshold you set (one of 90%, 95%, or 99%) that's multiple hypothesis corrected.
+The enrichment of protein PSMs over the control can be visualized on a log-log plot using **psm_plot()**. If you previously annotated your data with a table downloaded from UniProt, the function will detect the column `gene_names_primary` and use it to label data points (default = 10; set `num_labs` to customize). Points are colored by statistical significance, depending on what threshold you set (one of 90%, 95%, or 99%). Significance is based on Z-score, and multiple hypothesis corrected by the Benjamini-Hochberg procedure (see [this paper](https://elifesciences.org/articles/58662) for additional details).
 ```r
 psmplot(data = cadherin_b1, 
         xlab = "control PSMs", 
