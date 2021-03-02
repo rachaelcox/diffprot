@@ -129,11 +129,11 @@ combine_exps <- function(exp1, exp2, exp1_id, exp2_id, outfile_prefix){
   exp2_id <- paste0("_", exp2_id)
 
   df1 <- exp1 %>%
-    select(accession, joint_zscore, fdr_bh, gene_names_primary) %>%
+    select(accession, joint_zscore, fdr_bh, matches(".*gene_names_primary$") %>%
     rename_with(.cols = all_of(cols), .fn = ~paste0(., exp1_id))
 
   df2 <- exp2 %>%
-    select(accession, joint_zscore, fdr_bh, gene_names_primary) %>%
+    select(accession, joint_zscore, fdr_bh, matches(".*gene_names_primary$") %>%
     rename_with(.cols = all_of(cols), .fn = ~paste0(., exp2_id))
 
   df1_fdr <- colnames(df1)[3]
