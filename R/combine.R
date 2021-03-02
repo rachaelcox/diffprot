@@ -128,12 +128,15 @@ combine_exps <- function(exp1, exp2, exp1_id, exp2_id, outfile_prefix){
   exp1_id <- paste0("_", exp1_id)
   exp2_id <- paste0("_", exp2_id)
 
+  acol <- grep('gene_names_primary$',
+               names(exp1), value = TRUE)
+
   df1 <- exp1 %>%
-    select(accession, joint_zscore, fdr_bh, matches(".*gene_names_primary.*")) %>%
+    select(accession, joint_zscore, fdr_bh, get(acol)) %>%
     rename_with(.cols = all_of(cols), .fn = ~paste0(., exp1_id))
 
   df2 <- exp2 %>%
-    select(accession, joint_zscore, fdr_bh, matches(".*gene_names_primary.*")) %>%
+    select(accession, joint_zscore, fdr_bh, get(acol)) %>%
     rename_with(.cols = all_of(cols), .fn = ~paste0(., exp2_id))
 
   df1_fdr <- colnames(df1)[3]
@@ -141,7 +144,7 @@ combine_exps <- function(exp1, exp2, exp1_id, exp2_id, outfile_prefix){
   df2_fdr <- colnames(df2)[3]
   df2_z <- colnames(df2)[2]
 
-  combined_df <- full_join(df1, df2, by = c("accession", "gene_names_primary")) %>%
+  combined_df <- full_join(df1, df2, by = c("accession", get(acol))) %>%
     mutate(conf_90 = dplyr::case_when(get(df1_fdr) <= 0.10 & get(df2_fdr) <= 0.10 ~ both_sig,
                                get(df1_fdr) <= 0.10 & get(df2_fdr) > 0.10 ~ exp1_sig,
                                get(df1_fdr) > 0.10 & get(df2_fdr) <= 0.10 ~ exp2_sig,
