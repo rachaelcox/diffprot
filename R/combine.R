@@ -71,7 +71,7 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
   # calculate probability values
   if(!one_sided){
     combined_df <- combined_df %>%
-      dplyr::mutate(pval = pnorm(joint_zscore)) %>%
+      dplyr::mutate(pval = pnorm(joint_zscore, lower.tail = FALSE)*2) %>%
       dplyr::mutate(fdr_bh = p.adjust(pval, method = "BH", n = length(pval)))
   } else {
     combined_df <- combined_df %>%
