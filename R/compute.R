@@ -50,7 +50,7 @@ compute_fxn <- function(pd_impute_df, one_sided = FALSE){
   # calculate probabilities
   if(!one_sided){
     pd_enriched <- pd_enriched %>%
-      dplyr::mutate(pval = pnorm(PSM_zscore, lower.tail = FALSE)*2) %>%
+      dplyr::mutate(pval = pnorm(abs(PSM_zscore), lower.tail = FALSE)*2) %>%
       dplyr::mutate(fdr_bh = p.adjust(pval, method = "BH", n = length(pval)))
   } else {
     pd_enriched <- pd_enriched %>%
