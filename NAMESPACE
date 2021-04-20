@@ -3,5 +3,6 @@
 export(combine_exps)
 export(combine_reps)
 export(enrich)
+export(format_psm_file)
 export(psmplot)
 export(zplot)
