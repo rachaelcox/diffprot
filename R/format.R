@@ -4,6 +4,7 @@
 #' @param meta_file A tab-separate file with column headers `exp_name` (populated with values that correspond to exp_id variable), `type` (exp or ctrl), and `file_id` (determined by Proteome Discoverer, see README).
 #' @param psm_file PSM.txt tab-separated file output by Proteome Discoverer 2.3.
 #' @return A data frame with PSMs summarized for each accession in test and control cases.
+#' @export
 format_psm_file <- function(exp_id, meta_file, psm_file){
 
   meta <- readr::read_tsv(meta_file) %>%
