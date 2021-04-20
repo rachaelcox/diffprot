@@ -61,8 +61,8 @@ Compute fold-changes and Z-scores for test versus control samples for each biolo
 # compute differential protein abundance for 1 biological replicate
 cadherin_b1 <- enrich(exp_id = "cadherin_b1",
                       meta_file = "cadherin_meta.txt",
-                      psm_file = "cadherin_b1_052920_Proteins.txt",
-                      pd_file = "cadherin_b1_052920_PSMs.txt",
+                      psm_file = "cadherin_b1_052920_PSMs.txt",
+                      pd_file = "cadherin_b1_052920_Proteins.txt",
                       one_sided = TRUE)
 ```
 We often use abstract accessions or grouped identifiers in search databases for assigning peptide mass spectrometry data. Sometimes these accessions are not useful, so this package will also annotate your data given a properly formatted annotation file (UniProt is a great source for this). The annotation file **must** be tab-delimited and **must** contain columns called `accession` and `gene_names_primary`.
@@ -70,8 +70,8 @@ We often use abstract accessions or grouped identifiers in search databases for 
 # optionally annotate your data
 cadherin_b1 <- enrich(exp_id = "cadherin_b1",
                       meta_file = "cadherin_meta.txt",
-                      psm_file = "cadherin_b1_052920_Proteins.txt",
-                      pd_file = "cadherin_b1_052920_PSMs.txt",
+                      psm_file = "cadherin_b1_052920_PSMs.txt",
+                      pd_file = "cadherin_b1_052920_Proteins.txt",
                       one_sided = TRUE,
                       annot_file = "xenla_annots.tab",
                       outfile_name = "inst/extdata/cadherin_b1")
@@ -96,8 +96,8 @@ Ideally you have more than one biological replicate to power your results; if so
 # compute differential protein abundance for biological replicate #2
 cadherin_b2 <- enrich(exp_id = "cadherin_b2",
                       meta_file = "cadherin_meta.txt",
-                      psm_file = "cadherin_b2_052920_Proteins.txt",
-                      pd_file = "cadherin_b2_052920_PSMs.txt",
+                      psm_file = "cadherin_b2_052920_PSMs.txt",
+                      pd_file = "cadherin_b2_052920_Proteins.txt",
                       one_sided = TRUE,
                       annot_file = "xenla_annots.tab",
                       outfile_name = "inst/extdata/cadherin_b2")
