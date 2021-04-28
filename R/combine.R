@@ -63,6 +63,7 @@ combine_reps <- function(rep1, rep2, rep3, rep4, one_sided = FALSE, outfile_pref
       bind_rows(list(rep2, rep3, rep4)) %>%
       pivot_wider(names_from = rep,
                   values_from = c(ctrl_PSMs, exp_PSMs, PSM_zscore, PSM_log2fc))
+  }
 
   # define experiment, control, and zscore columns for each rep
   ecols <- grep('^exp_PSMs', names(combined_df), value = TRUE)
