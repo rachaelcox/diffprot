@@ -74,7 +74,7 @@ cadherin_b1 <- enrich(exp_id = "cadherin_b1",
                       pd_file = "cadherin_b1_052920_Proteins.txt",
                       one_sided = TRUE,
                       annot_file = "xenla_annots.tab",
-                      outfile_name = "inst/extdata/cadherin_b1")
+                      outfile_name = "path/to/mydata/cadherin_b1")
 ```
 The enrichment of protein PSMs over the control can be visualized on a log-log plot using **`psm_plot()`**. If you previously annotated your data with a table downloaded from UniProt, the function will detect the column `gene_names_primary` and use it to label data points (default = 10; set `num_labs` to customize). Points are colored by statistical significance, depending on what threshold you set (one of 90%, 95%, or 99%). Significance is based on 
 
@@ -85,7 +85,7 @@ psmplot(data = cadherin_b1,
         xlab = "control PSMs", 
         ylab = "test PSMs", 
         threshold = 90, 
-        outfile_prefix = "inst/extdata/figures/cad_b1")
+        outfile_prefix = "path/to/mydata/cad_b1")
 ```
 Which saves .pdf and .png files that look like this:
 
@@ -100,19 +100,19 @@ cadherin_b2 <- enrich(exp_id = "cadherin_b2",
                       pd_file = "cadherin_b2_052920_Proteins.txt",
                       one_sided = TRUE,
                       annot_file = "xenla_annots.tab",
-                      outfile_name = "inst/extdata/cadherin_b2")
+                      outfile_name = "path/to/mydata/cadherin_b2")
 
 # combine bio reps
 cadherin_all <- combine_reps(rep1 = cadherin_b1,
                              rep2 = cadherin_b2,
                              one_sided = TRUE,
-                             outfile_prefix = "inst/extdata/cadherin_all")
+                             outfile_prefix = "path/to/mydata/cadherin_all")
 ```
 With two or more biological replicates combined into one dataframe (in this example, `cadherin_all`), you can visualize the consistency between replicates by using **`zplot()`**. Again, points are colored by a set confidence threshold (one of 90, 95, or 99) that's multiple hypothesis corrected, and solid lines are drawn on the plot to show Z-score cutoffs for that threshold. [This paper](https://elifesciences.org/articles/58662) contains equations for the Z-score calculation and additional analysis details.
 ```r
 zplot(data = cadherin_all, xlab = "rep #2 z-scores", xcol = "PSM_zscore_b2",
       ylab = "rep #1 z-scores", ycol = "PSM_zscore_b1", threshold = 90,
-      outfile_prefix = "inst/extdata/figures/cadherin")
+      outfile_prefix = "path/to/mydata/cadherin")
 ```
 ![GFP-Cadherin APMS, Z-Score Comparison Across Replicates](inst/extdata/figures/cadherin_zplot.png)
 
