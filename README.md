@@ -1,5 +1,5 @@
 # diffprot
-Annotate, compute, and visualize fold-changes and Z-scores for differential mass spectrometry proteomics.
+An R package for statistical analysis and visualization of differential mass spectrometry proteomics.
 
 ## Functions
 More detailed descriptions of each function and their parameters can be accessed in R by using `?enrich`, `?psmplot`, `?combine_reps`, `?combine_exps`, or `?zplot`. Briefly, features of this package are provided below:
