@@ -4,7 +4,7 @@
 \alias{combine_reps}
 \title{Combine replicates for a proteomics experiment.}
 \usage{
-combine_reps(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix)
+combine_reps(rep1, rep2, rep3, rep4, one_sided = FALSE, outfile_prefix)
 }
 \arguments{
 \item{rep1}{A data frame produced by \code{enrich_fxn()} corresponding to replicate 1.}
@@ -12,6 +12,8 @@ combine_reps(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix)
 \item{rep2}{A data frame produced by \code{enrich_fxn()} corresponding to replicate 2.}
 
 \item{rep3}{Optional. A data frame produced by \code{enrich_fxn()} corresponding to replicate 3.}
+
+\item{rep4}{Optional. A data frame produced by \code{enrich_fxn()} corresponding to replicate 4.}
 
 \item{one_sided}{Specify one-sided or two-sided statistical test; default = \code{FALSE} (two-sided).}
 

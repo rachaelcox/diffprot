@@ -5,11 +5,12 @@
 #' @param rep1 A data frame produced by `enrich_fxn()` corresponding to replicate 1.
 #' @param rep2 A data frame produced by `enrich_fxn()` corresponding to replicate 2.
 #' @param rep3 Optional. A data frame produced by `enrich_fxn()` corresponding to replicate 3.
+#' @param rep4 Optional. A data frame produced by `enrich_fxn()` corresponding to replicate 4.
 #' @param one_sided Specify one-sided or two-sided statistical test; default = `FALSE` (two-sided).
 #' @param outfile_prefix Optional. File prefix for output `.csv` files. Default = "reps_combined".
 #' @return A data frame and `.csv` with PSM information across biological replicates combined into one table.
 #' @export
-combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
+combine_reps <- function(rep1, rep2, rep3, rep4, one_sided = FALSE, outfile_prefix){
 
   # combine replicates into one data frame
   rep1 <- rep1 %>%
@@ -27,7 +28,7 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
   }
 
 
-  if(missing(rep3)){
+  if(missing(rep3) & missing(rep4)){
 
     combined_df <- rep1 %>%
       bind_rows(rep2) %>%
@@ -35,7 +36,7 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
                   values_from = c(ctrl_PSMs, exp_PSMs, PSM_zscore, PSM_log2fc))
 
 
-  } else {
+  } else if(!missing(rep3) & missing(rep4)) {
 
     rep3 <- rep3 %>%
       dplyr::mutate(rep = "b3") %>%
@@ -47,6 +48,21 @@ combine_reps <- function(rep1, rep2, rep3, one_sided = FALSE, outfile_prefix){
       pivot_wider(names_from = rep,
                   values_from = c(ctrl_PSMs, exp_PSMs, PSM_zscore, PSM_log2fc))
 
+  } else {
+
+    rep3 <- rep3 %>%
+      dplyr::mutate(rep = "b3") %>%
+      dplyr::select(-matches("abundance.*"), -matches("number_of.*"),
+                    -total_PSMs, -PSM_fc, -pval, -fdr_bh)
+    rep4 <- rep4 %>%
+      dplyr::mutate(rep = "b4") %>%
+      dplyr::select(-matches("abundance.*"), -matches("number_of.*"),
+                    -total_PSMs, -PSM_fc, -pval, -fdr_bh)
+
+    combined_df <- rep1 %>%
+      bind_rows(list(rep2, rep3, rep4)) %>%
+      pivot_wider(names_from = rep,
+                  values_from = c(ctrl_PSMs, exp_PSMs, PSM_zscore, PSM_log2fc))
   }
 
   # define experiment, control, and zscore columns for each rep
