@@ -45,7 +45,7 @@ compute_fxn <- function(pd_impute_df, one_sided = FALSE){
              (F0_exp - F0_ctrl)/
              sqrt((
                (F1 * (1-F1) / sum(exp_PSMs))) +
-                 (F1 * (1-F1) / sum(exp_PSMs))))
+                 (F1 * (1-F1) / sum(ctrl_PSMs))))
 
   # calculate probabilities
   if(!one_sided){
