@@ -65,10 +65,11 @@ combine_reps <- function(rep1, rep2, rep3, rep4, one_sided = FALSE, outfile_pref
                   values_from = c(ctrl_PSMs, exp_PSMs, PSM_zscore, PSM_log2fc))
   }
 
-  # define experiment, control, and zscore columns for each rep
+  # define experiment, control, z-score and fold change columns for each rep
   ecols <- grep('^exp_PSMs', names(combined_df), value = TRUE)
   ccols <- grep('^ctrl_PSMs', names(combined_df), value = TRUE)
   zcols <- grep('^PSM_zscore', names(combined_df), value = TRUE)
+  fcols <- grep('^PSM_log2fc', names(combined_df), value = TRUE)
 
   print("Joining data frames...")
   print(glimpse(combined_df))
@@ -80,6 +81,7 @@ combine_reps <- function(rep1, rep2, rep3, rep4, one_sided = FALSE, outfile_pref
     dplyr::mutate(joint_zscore = rowSums(select(., zcols))/sqrt(length(zcols))) %>%
     dplyr::mutate(mean_ctrl_PSMs = rowMeans(select(., ccols))) %>%
     dplyr::mutate(mean_exp_PSMs = rowMeans(select(., ecols))) %>%
+    dplyr::mutate(mean_log2fc = rowMeans(select(., fcols))) %>%
     dplyr::select(accession, matches("_b\\d"), matches("mean_"),
            joint_zscore, everything()) %>%
     dplyr::arrange(desc(joint_zscore))
